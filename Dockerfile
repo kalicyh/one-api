@@ -1,11 +1,11 @@
-FROM node:16 as builder
+FROM node:22.4.1 as builder
 
 WORKDIR /build
 COPY web/package.json .
-RUN npm install
+RUN yarn install
 COPY ./web .
 COPY ./VERSION .
-RUN DISABLE_ESLINT_PLUGIN='true' REACT_APP_VERSION=$(cat VERSION) npm run build
+RUN DISABLE_ESLINT_PLUGIN='true' REACT_APP_VERSION=$(cat VERSION) yarn run build
 
 FROM golang AS builder2
 

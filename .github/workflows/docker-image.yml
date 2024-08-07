@@ -3,7 +3,7 @@ name: one-api docker image
 on:
   push:
     branches:
-      - main
+      - docker
     tags:
       - "v*"
     paths-ignore:
@@ -90,7 +90,7 @@ jobs:
         uses: docker/login-action@v2
         with:
           registry: docker.io
-          username: ${{ vars.DOCKER_HUB_USERNAME }}
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }} # Replace with your Docker Hub password secret
 
       - name: Docker meta
@@ -99,8 +99,8 @@ jobs:
         with:
           # list of Docker images to use as base name for tags
           images: |
-            ghcr.io/${{ vars.DOCKER_HUB_USERNAME }}/${{ vars.DOCKER_HUB_REPO }}
-            docker.io/${{ vars.DOCKER_HUB_USERNAME }}/${{ vars.DOCKER_HUB_REPO }}
+            ghcr.io/${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.DOCKER_HUB_REPO }}
+            docker.io/${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.DOCKER_HUB_REPO }}
           # generate Docker tags based on the following events/attributes
           tags: |
             type=raw,value=dev,enable=${{ github.ref == 'refs/heads/main' }}
